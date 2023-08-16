@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Add these lines in the <head> section of your HTML -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0px;
+      padding: 0px;
+    }
+
+
+    .container {
+      width: 100%;
+    }
+
+    .row {
+      width: 90%;
+      margin: auto;
+    }
+
+    .book-item {
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+      background-color: #fff;
+      width: 25.33%;
+      margin-right: 70px;
+      margin-bottom: 40px;
+    }
+
+    .book-item:hover {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 
+    .book-image {
+      width: 300px;
+      height: 250px;
+    } */
+
+    .btn-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn-width {
+      width: 100px;
+    }
+
+    .grid-container {
+      display: grid;
+      place-items: center;
+    }
+
+    .grid-container>p>a {
+      text-decoration: none;
+      font-size: 300px;
+
+    }
+  </style>
+
+
+</head>
+
+<%- include('header') -%>
+
+  <p style="float: right; margin-top: 18px;">
+    <% if (user) { %>
+      <a class="btn btn-success" style="padding: 11px 20px; margin-right: 30px; width: 250px; font-size: 22px;"
+        href="/transaction">Transaction Page</a>
+      <% } %>
+  </p>
+
+  <body style="background-image: url('./images/pexels-ivo-rainha-1290141\(1\).jpg');background-size: contain;">
+    <!-- Create a navigation bar -->
+
+    <h1 style="text-align: center;  background-color: rgb(239, 229, 216); padding: 20px; margin-bottom: 30px;">
+      "I have always imagined that Paradise will be a kind of a Library."</h1>
+    <!-- Use Bootstrap grid for book container -->
+    <div class="container mt-2">
+      <div class="row">
+
+
+        <% if (user==='admin' ) { %>
+          <div class="book-item grid-container" style="background-color: rgb(239, 189, 239);">
+            <p>
+              <a href="/addbook" class="add-book-link">
+                <%= add %>
+              </a>
+            </p>
+            <p style="font-size: 30px;">Add Books</p>
+          </div>
+          <% } %>
+
+
+            <% books.forEach(book=> { %>
+              <div class="book-item">
+                <img src="<%= book.b_image %>" alt="" class="img-fluid book-image">
+                <h3>
+                  <%= book.b_title %>
+                </h3>
+                <h4>
+                  <%= book.b_author %>
+                </h4>
+                <p>ABC publications</p>
+                <p>
+                  <%= book.b_publicationDate %>
+                </p>
+
+                <% if (user==='admin' ) { %>
+                  <div class="btn-container">
+                    <form action="/updateBook/<%= book._id %>">
+                      <!-- Inside the loop that generates book cards -->
+                      <button type="button" class="btn btn-success btn-width"
+                        onclick="fillFormInputs('<%= book._id %>', '<%= book.b_title %>', '<%= book.b_author %>', '<%= book.b_publisher %>', '<%= book.b_publicationDate %>')">Update</button>
+                    </form>
+                    <form action="/deleteBook/<%= book._id %>" method="post">
+                      <button type="submit" class="btn btn-danger btn-width">Delete</button>
+                    </form>
+                  </div>
+                  <% } else { %>
+                    <% if (book.b_availability==='true' ) { %>
+                      <a href="/transaction/<%= book._id %>" class="btn btn-primary btn-width">Issue</a>
+                      <% } else { %>
+                        <a href="#" class="btn btn-danger btn-width">Unavailable</a>
+                        <% } %>
+                          <% } %>
+              </div>
+              <% }); %>
+      </div>
+    </div>
+
+    <%- include('footer') -%>
+    
+    <script>
+      function fillFormInputs(id, title, author, publisher, publicationDate) {
+          document.getElementById('title').value = title;
+          document.getElementById('author').value = author;
+          document.getElementById('publisher').value = publisher;
+          document.getElementById('publicationDate').value = publicationDate;
+          // You might need to handle the image URL separately, depending on your requirements.
+      }
+  </script>
+
+      <!-- Include Bootstrap JS -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+
+</html>

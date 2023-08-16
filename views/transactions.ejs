@@ -1,0 +1,35 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Transactions
+        link(rel="stylesheet" href="/stylesheets/transactions.css") // Add your stylesheet link
+    body
+        .transactions-container
+            style.
+                background-color: #D6E8DB;
+            // Center-aligned title
+            h1.center-aligned Transactions
+
+            // Table displaying transaction details
+            table
+                thead
+                    tr
+                        th Transaction ID
+                        th Book Title
+                        th Transaction Date
+                        th Due Date
+                        th Returned Date
+
+                tbody
+                    each transaction in transactions
+                        tr
+                            td= transaction.transactionId
+                            td= transaction.bookTitle
+                            td= formatDate(transaction.transactionDate)
+                            td= formatDate(transaction.dueDate)
+                            td= formatDate(transaction.returnedDate) || 'Not returned'
+
+        // Include necessary scripts at the end of the body
+        script(src="/javascripts/transactions.js")
