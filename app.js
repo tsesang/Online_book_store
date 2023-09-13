@@ -10,11 +10,9 @@ const cookieParser = require('cookie-parser')
 // const LocalStrategy = require('passport-local').Strategy;
 const path = require('path');
 
-
 const fileUpload = require('express-fileupload')
 app.use(fileUpload())
 // enctype="multipart/form-data" tis line should be included in the form tag in ejs 
-
 
 
 app.set('view engine', 'ejs');
@@ -27,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser())
 const sessionVar = {secret : "we know nothing"}
 app.use(session(sessionVar))
+
 
 //middlewares for FORMS
 app.use(express.json())
